@@ -1,0 +1,14 @@
+{
+    "jobs": [
+        {
+            "function": "get_all_symbol",
+            "time": "00:00",
+            "day_of_week": "sun"
+        },
+        {
+            "function": "get_calendars",
+            "time": "01:00",
+            "day_of_week": "sun"
+        }
+    ]
+}

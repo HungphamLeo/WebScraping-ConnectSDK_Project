@@ -1,0 +1,5 @@
+{
+    "EUR-USD": {
+        "xtb": ["ticker", "kline_1m", "kline_5m","kline_1h"]
+    }
+}

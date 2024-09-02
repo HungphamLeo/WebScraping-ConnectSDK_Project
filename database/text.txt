@@ -1,0 +1,12 @@
+= >
+built database example to save and process:
+1. trading_data_provider
+    => save order history
+    => snap_shot_account
+    => save news event => set up the time to notice (send_telegram) 
+
+2. econmics_data_provider:
+    => save the table save corporation information + price now 
+    => save news event => set up the time to notice (send_telegram)
+    
+
