@@ -1,39 +1,23 @@
 import requests
 import pandas as pd
-import os
-from .utils_research import URL_STANDARD, STOCK_API_FUNCTION, stock_candles_record
-from logger import setup_logger_global
 
-class StockAPIData:
+from .utils import URL_STANDARD, STOCK_API_FUNCTION, stock_candles_record
+from .base_abstract import AlphaVantageBase
+class StockAPIData(AlphaVantageBase):
     def __init__(self, api_key, base_asset, quote_asset):
-        self.api_key = api_key
-        self.symbol_exchange = f'{base_asset}.{quote_asset}'
-        self.exchange_name = quote_asset
-        current_file = os.path.abspath(__file__)
-        connection_logger_name = os.path.basename(current_file)
-        self.logger_stock = setup_logger_global(connection_logger_name, connection_logger_name + '.log')
-
-    
-    def _fetch_data(self, params):
+        
+        super().__init__(api_key, base_asset, quote_asset)
         """
-        Fetches data from the API endpoint specified by URL_STANDARD with the given parameters.
+        Initializes a FundementalStockData object.
 
-        Args:
-            params (dict): A dictionary of parameters to be passed to the API request.
+        Parameters:
+        api_key (str): The API key for authentication.
+        base_asset (str): The base asset of the stock symbol.
+        quote_asset (str): The quote asset of the stock symbol.
 
         Returns:
-            dict: The JSON response from the API, or None if the request fails.
-
-        Raises:
-            Exception: If the API request fails for any reason.
+        None
         """
-        try:
-            response = requests.get(URL_STANDARD, params=params)
-            if response.status_code == 200:
-                re = response.json()
-                return re
-        except Exception as e:
-            self.logger_stock.error(f"API request failed {e}")
 
     def get_intraday_time_series(self, interval, base_asset = '', quote_asset = '', 
                                  function=STOCK_API_FUNCTION.TIME_SERIES_INTRADAY,
@@ -65,7 +49,7 @@ class StockAPIData:
             data = stock_candles_record(re,result_type)
             return data
         except Exception as e:
-            self.logger_stock.error(f"API request failed {e}")
+            self.logger_alphavantage.error(f"API request failed {e}")
 
     def get_daily_time_series(self, base_asset = '', quote_asset = '', 
                               function=STOCK_API_FUNCTION.TIME_SERIES_DAILY, 
@@ -91,7 +75,7 @@ class StockAPIData:
             data = stock_candles_record(re,result_type)
             return data
         except Exception as e:
-            self.logger_stock.error(f"API request failed {e}")
+            self.logger_alphavantage.error(f"API request failed {e}")
             
     def get_daily_adjusted_time_series(self,  base_asset = '', quote_asset = '', 
                               function=STOCK_API_FUNCTION.TIME_SERIES_DAILY_ADJUSTED, 
@@ -116,7 +100,7 @@ class StockAPIData:
             data = stock_candles_record(re,result_type)
             return data
         except Exception as e:
-            self.logger_stock.error(f"API request failed {e}")
+            self.logger_alphavantage.error(f"API request failed {e}")
 
     def get_weekly_time_series(self, base_asset = '', quote_asset = '', 
                               function=STOCK_API_FUNCTION.TIME_SERIES_WEEKLY, 
@@ -140,7 +124,7 @@ class StockAPIData:
             data = stock_candles_record(re,result_type)
             return data
         except Exception as e:
-            self.logger_stock.error(f"API request failed {e}")
+            self.logger_alphavantage.error(f"API request failed {e}")
 
     def get_weekly_adjusted_time_series(self, base_asset = '', quote_asset = '', 
                                         function=STOCK_API_FUNCTION.TIME_SERIES_WEEKLY_ADJUSTED,
@@ -164,7 +148,7 @@ class StockAPIData:
             data = stock_candles_record(re,result_type)
             return data
         except Exception as e:
-            self.logger_stock.error(f"API request failed {e}")
+            self.logger_alphavantage.error(f"API request failed {e}")
 
     def get_monthly_time_series(self, base_asset = '', quote_asset = '', 
                                 function=STOCK_API_FUNCTION.TIME_SERIES_MONTHLY, 
@@ -188,7 +172,7 @@ class StockAPIData:
             data = stock_candles_record(re,result_type)
             return data
         except Exception as e:
-            self.logger_stock.error(f"API request failed {e}")
+            self.logger_alphavantage.error(f"API request failed {e}")
 
     def get_monthly_adjusted_time_series(self, base_asset = '', quote_asset = '', 
                                         function=STOCK_API_FUNCTION.TIME_SERIES_MONTHLY_ADJUSTED, 
@@ -212,7 +196,7 @@ class StockAPIData:
             data = stock_candles_record(re,result_type)
             return data
         except Exception as e:
-            self.logger_stock.error(f"API request failed {e}")
+            self.logger_alphavantage.error(f"API request failed {e}")
 
     def get_ticker(self, base_asset = '', quote_asset = '',
                     function=STOCK_API_FUNCTION.GLOBAL_QUOTE,  
@@ -251,7 +235,7 @@ class StockAPIData:
             else:
                 return quote_dict
         except Exception as e:
-            self.logger_stock.error(f"API request failed {e}")
+            self.logger_alphavantage.error(f"API request failed {e}")
 
     def search_symbol(self, keywords, function=STOCK_API_FUNCTION.SYMBOL_SEARCH, datatype="json"):
         """
@@ -267,7 +251,7 @@ class StockAPIData:
             re = self._fetch_data(params)
             return re
         except Exception as e:
-            self.logger_stock.error(f"API request failed {e}")
+            self.logger_alphavantage.error(f"API request failed {e}")
     
 
     def get_historical_options(self, base_asset = '', quote_asset = '', date=None, datatype='json', result_type = 'table'):
@@ -308,7 +292,7 @@ class StockAPIData:
             else:
                 return re
         except Exception as e:
-            self.logger_stock.error(f"API request failed {e}")
+            self.logger_alphavantage.error(f"API request failed {e}")
 
 
 
