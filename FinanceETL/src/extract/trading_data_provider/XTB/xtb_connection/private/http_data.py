@@ -7,7 +7,7 @@ from logger import setup_logger_global
 r = Redis(host='localhost', port=6379, decode_responses=True)
 
 class http_data_provider:
-    def __init__(self, base_asset, quote_asset, api_key, secret_key):
+    def __init__(self, api_key, secret_key, base_asset = '', quote_asset =''):
         self._client = APIClient()
         self.base_asset = base_asset
         self.quote_asset = quote_asset
@@ -51,4 +51,10 @@ class http_data_provider:
             return candles_list
         except Exception as e:
             self.logger_base_connect.error(e)
+        pass
+
+    def get_calendar(self):
+        pass
+
+    def get_all_symbols(self):
         pass

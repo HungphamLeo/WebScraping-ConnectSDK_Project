@@ -14,7 +14,7 @@ connection_logger_name = os.path.abspath(__file__)
 logger_database = setup_logger_global(connection_logger_name, connection_logger_name + '.log')
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
-def create_table_make_orders():
+def xtb_create_table_make_orders():
     """
     Creates the make_orders table in the MySQL database.
     """
@@ -54,7 +54,7 @@ def create_table_make_orders():
         return False
     return True
 
-def create_event_calendar():
+def xtb_create_event_calendar():
     """
     Creates the event_calendar table in the MySQL database. 
     """
@@ -84,7 +84,7 @@ def create_event_calendar():
 
 
 
-def create_table_inventory_values():
+def xtb_create_table_inventory_values():
     """
     Creates the inventory_values table in the MySQL database.
     """
@@ -126,7 +126,7 @@ def create_table_inventory_values():
         return False
     return True
 
-def delete_news_db():
+def xtb_delete_news_db():
     try:
         connection, cursor = get_connection()
         
@@ -149,7 +149,7 @@ def delete_news_db():
         cursor.close()
         connection.close()
 
-def insert_news_db(data_list):
+def xtb_insert_news_db(data_list):
     try:
         connection, cursor = get_connection()
         check_query = """
@@ -180,7 +180,7 @@ def insert_news_db(data_list):
         print(f"Error occurred: {e}")
         connection.rollback()
 
-def insert_symbol_db(data_list):
+def xtb_insert_symbol_db(data_list):
     try:
         connection, cursor = get_connection()
         insert_query = """
@@ -204,7 +204,7 @@ def insert_symbol_db(data_list):
 
 
 
-def create_table_symbol_data():
+def xtb_create_table_symbol_data():
     """
     Creates the symbol_data table in the MySQL database.
     """
@@ -244,7 +244,7 @@ def create_table_symbol_data():
     return True
 
 
-def get_connection():
+def xtb_get_connection():
     """
     Establishes a connection to a MySQL database and returns a tuple containing the connection object and a cursor object.
 
@@ -263,7 +263,7 @@ def get_connection():
     cursor = connection.cursor()
     return connection, cursor
 
-def close_connection(connection, cursor):
+def xtb_close_connection(connection, cursor):
     """
     Closes a MySQL connection and cursor.
 
@@ -279,7 +279,7 @@ def close_connection(connection, cursor):
 
     
 
-def insert_make_order(order):
+def xtb_insert_make_order(order):
     """
     Inserts an order into the 'make_orders' table in the MySQL database.
 
@@ -304,7 +304,7 @@ def insert_make_order(order):
         The 'created_at' and 'updated_at' columns are set to the current timestamp.
     """
     try:
-        connection, cursor = get_connection()
+        connection, cursor = xtb_get_connection()
         current_timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         
         insert_query = """
@@ -322,9 +322,9 @@ def insert_make_order(order):
         return err
         
     finally:
-        close_connection(connection, cursor)
+        xtb_close_connection(connection, cursor)
 
-def fetch_all_make_order():
+def xtb_fetch_all_make_order():
     """
     Fetches all the make orders from the database.
 
@@ -347,7 +347,7 @@ def fetch_all_make_order():
 
     """
     try:
-        connection, cursor = get_connection()
+        connection, cursor = xtb_get_connection()
         # current_timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         # Fetch all rows that are not already marked as deleted
         select_query = """SELECT order_id, exchange, strategy_name, api_key, account_id, param_id, symbol, note 
@@ -374,9 +374,9 @@ def fetch_all_make_order():
         return err
         
     finally:
-        close_connection(connection, cursor)
+        xtb_close_connection(connection, cursor)
 
-def delete_make_order(order_id):
+def xtb_delete_make_order(order_id):
     """
     Deletes a make order from the database.
     Parameters:
@@ -398,7 +398,7 @@ def delete_make_order(order_id):
 
     """
     try:
-        connection, cursor = get_connection()
+        connection, cursor = xtb_get_connection()
         current_timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
        
         update_query = "UPDATE make_orders SET deleted_at = %s WHERE order_id = %s"
@@ -411,7 +411,7 @@ def delete_make_order(order_id):
         return err
         
     finally:
-        close_connection(connection, cursor)
+        xtb_close_connection(connection, cursor)
 
 
 def insert_inventory_value(inventory):
@@ -437,7 +437,7 @@ def insert_inventory_value(inventory):
 
     """
     try:
-        connection, cursor = get_connection()
+        connection, cursor = xtb_get_connection()
         
         current_timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         current_unix_timestamp = int(time.time())
@@ -458,7 +458,7 @@ def insert_inventory_value(inventory):
         return err
         
     finally:
-        close_connection(connection, cursor)
+        xtb_close_connection(connection, cursor)
 
 def insert_volume_snapshots(snapshot):
     """
@@ -472,7 +472,7 @@ def insert_volume_snapshots(snapshot):
         None if successful, otherwise returns an error message.
     """
     try:
-        connection, cursor = get_connection()
+        connection, cursor = xtb_get_connection()
         
         # current_timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         
@@ -516,64 +516,7 @@ def insert_volume_snapshots(snapshot):
         return err
         
     finally:
-        close_connection(connection, cursor)
+        xtb_close_connection(connection, cursor)
 
-def calculate_volume_snapshots(list_strategy, exchange, base_symbol, quote_symbol, from_time):
-    """
-    Calculate the total wash volume for a given list of strategies, exchange, base symbol, quote symbol, and from time.
-    
-    Args:
-        list_strategy (List[str]): A list of strategy names.
-        exchange (str): The exchange name.
-        base_symbol (str): The base symbol.
-        quote_symbol (str): The quote symbol.
-        from_time (str): The starting time in the format 'YYYY-MM-DD HH:MM:SS'.
-        
-    Returns:
-        float or Exception: The total wash volume if successful, or an Exception object if an error occurs.
-    """
-    try:
-        connection = mysql.connector.connect(
-            host=MYSQL_HOST,
-            user=MYSQL_USER,
-            password=MYSQL_PASSWORD,
-            database=MYSQL_DATABASE
-        )
-        cursor = connection.cursor()
-        wash_volume = 0
-        if len(list_strategy) == 0:
-            query = f"""SELECT * FROM volume_snapshots 
-                        WHERE exchange = '{exchange}' AND base_symbol = '{base_symbol}' 
-                            AND quote_symbol = '{quote_symbol}' AND time_stamp >= '{from_time}' 
-                        ORDER BY id DESC"""
-            # Execute the SELECT statement
-            cursor.execute(query)
-            list_volume_snapshots = cursor.fetchall()
 
-            for volume_snapshot in list_volume_snapshots:
-                usd_volume = volume_snapshot[-1]
-                wash_volume += float(usd_volume)
-        else:
-            for strategy_name in list_strategy:
-                # Prepare the SELECT statement to get the last row based on the 'id' column
-                query = f"""SELECT * FROM volume_snapshots 
-                            WHERE strategy_name LIKE '%{strategy_name.lower()}%' AND exchange = '{exchange}'
-                                AND base_symbol = '{base_symbol}' AND quote_symbol = '{quote_symbol}' AND time_stamp >= '{from_time}' 
-                            ORDER BY id DESC"""
-                # Execute the SELECT statement
-                cursor.execute(query)
-                list_volume_snapshots = cursor.fetchall()
-
-                for volume_snapshot in list_volume_snapshots:
-                    usd_volume = volume_snapshot[-1]
-                    wash_volume += float(usd_volume)
-                logger_database.info(f"wash volume of {strategy_name} - {exchange} - {base_symbol} - {quote_symbol} - {from_time}: {wash_volume}")
-        return wash_volume
-        
-    except Exception as err:
-        logger_database.error(f"Error inserting row:{err}")
-        return err
-        
-    finally:
-        close_connection(connection, cursor)
     
