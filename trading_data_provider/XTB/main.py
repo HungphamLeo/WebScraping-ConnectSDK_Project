@@ -3,7 +3,7 @@ import os
 import json
 import threading
 import redis
-from xtb_connection import xstreaming_data_provider
+from xtb_connection import xtb_streaming_data_provider
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
 
@@ -35,12 +35,13 @@ try:
                 if exchange == "xtb" and exchange in exchanges_key:
                     api_key = account_key[exchange]['api_key']
                     secret_key = account_key[exchange]['secret_key']
-                    data_global[symbol_exchange] = xstreaming_data_provider(
-                                                                            api_key= api_key,
-                                                                            secret_key= secret_key,
-                                                                            r = r, 
-                                                                            symbol=symbol, 
-                                                                            quote= quote)
+                    data_global[symbol_exchange] = xtb_streaming_data_provider(
+                                                    api_key= api_key,
+                                                    secret_key= secret_key,
+                                                    r = r, 
+                                                    symbol=symbol, 
+                                                    quote= quote)
+                
                 for channel in data_input[symbol_raw][exchange]:
                     data_global[symbol_exchange].add_channel(channel)
                 threading.Thread(target=data_global[symbol_exchange].update_data).start()
@@ -51,3 +52,4 @@ try:
 
 except Exception as e:
     print(e, e.__traceback__.tb_lineno )
+    

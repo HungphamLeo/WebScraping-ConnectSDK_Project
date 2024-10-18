@@ -1,6 +1,5 @@
 from logger import setup_logger_global
-from ..utils import exchange_name
-logger_name = f'{exchange_name.XTB}_error'
+logger_name = f'XTB_error'
 logger_error = setup_logger_global(logger_name, logger_name + '.log')
 
 class XTBError:
