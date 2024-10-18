@@ -2,7 +2,7 @@ import os
 import json
 import schedule
 import time
-from trading_data_provider.xtb_connection import xapi_data_provider
+from ..extract.trading_data_provider.XTB.xtb_connection import http_data_provider
 from database.trading_database import insert_symbol_db, insert_news_db
 json_key = './trading_data_provider/private_infomations/my_credentials.json'
 cron_job_json_file = './database/cron_job.json'
@@ -37,7 +37,7 @@ def job_function(json_key,cron_job_json_file):
             crob_job = json.load(f)
     api_key = data_input[exchange]['api_key']
     secret_key = data_input[exchange]['secret_key']
-    client = xapi_data_provider(api_key= api_key,secret_key= secret_key)
+    client = http_data_provider(api_key= api_key,secret_key= secret_key)
     
     event_list = client.get_calendars()
     for job in crob_job['jobs']:
