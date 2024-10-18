@@ -9,5 +9,4 @@ class CleanTransform(TransformStrategy):
 
 class AggregateTransform(TransformStrategy):
     def process(self, data):
-        # Tổng hợp dữ liệu theo nhóm hoặc cột
         return aggregated_data
