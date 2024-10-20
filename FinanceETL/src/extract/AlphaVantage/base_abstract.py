@@ -1,6 +1,7 @@
 import requests
 import csv
 import os
+import pandas as pd
 from .utils import URL_STANDARD
 from logger import setup_logger_global
 from abc import ABC
@@ -74,3 +75,16 @@ class AlphaVantageBase(ABC):
         except Exception as e:
             self.logger_alphavantage.error(f"API request failed: {e}")
             return None
+        
+    def transform_finance_company_report(self,data, num_years=5, name_of_table="Report"):
+        symbol = data['symbol']
+        annual_data = data['annualReports']
+        columns = [key for key in annual_data[0].keys() if key != "fiscalDateEnding"]
+        years = [entry["fiscalDateEnding"].split("-")[0] for entry in annual_data[:num_years]]
+        values = {col: [None if entry[col] == "None" else float(entry[col]) for entry in annual_data[:num_years]] for col in columns}
+        transformed_data = pd.DataFrame(values, index=years).sort_index(ascending=True)
+        transformed_data.columns.name = f'{symbol}_{name_of_table}_Annual'
+        return transformed_data.T
+
+
+
