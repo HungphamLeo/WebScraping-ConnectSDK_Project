@@ -8,7 +8,7 @@ CONST_TABLE = 4
 
 def generate_balance_sheet_url(company_name, year, report_type="4 QUARTER", quarter="1"):   
     if report_type == "4 QUARTER":
-        print(f"{URL_BASE}{company_name}/{BALANCE_SHEET}/{year}/{quarter}/0/0/0/bao-cao-tai-chinh-.chn")
+        # print(f"{URL_BASE}{company_name}/{BALANCE_SHEET}/{year}/{quarter}/0/0/0/bao-cao-tai-chinh-.chn")
         return f"{URL_BASE}{company_name}/{BALANCE_SHEET}/{year}/{quarter}/0/0/0/bao-cao-tai-chinh-.chn"
     elif report_type == "1 YEAR":
         return f"{URL_BASE}{company_name}/{BALANCE_SHEET}/{year}/0/0/0/0/bao-cao-tai-chinh-.chn"

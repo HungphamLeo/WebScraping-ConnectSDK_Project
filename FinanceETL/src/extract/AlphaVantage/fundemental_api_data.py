@@ -108,7 +108,7 @@ class FundementalStockData(AlphaVantageBase):
             self.logger_alphavantage.error(f"API request failed {e}")
 
 
-    def get_fundamental_income_statement(self, base_asset = '', quote_asset = ''):
+    def get_fundamental_income_statement(self, base_asset = '', quote_asset = '', number_years = 5):
         """
         Retrieves fundamental income statement data from the API.
 
@@ -133,12 +133,12 @@ class FundementalStockData(AlphaVantageBase):
                 "symbol": symbol,
                 "apikey": self.api_key
             }
-            data = self._fetch_data(params)
+            data = self.transform_finance_company_report(data = self._fetch_data(params), number_years = number_years, name = 'Income_Statement')
             return data
         except Exception as e:
             self.logger_alphavantage.error(f"API request failed {e}")
     
-    def get_fundamental_balance_sheet(self, base_asset = '', quote_asset = ''):
+    def get_fundamental_balance_sheet(self, base_asset = '', quote_asset = '', number_years = 5):
         """
         Retrieves fundamental balance sheet data from the API.
 
@@ -163,12 +163,12 @@ class FundementalStockData(AlphaVantageBase):
                 "symbol": symbol,
                 "apikey": self.api_key
             }
-            data = self._fetch_data(params)
+            data = self.transform_finance_company_report(data = self._fetch_data(params), number_years = number_years, name = 'Balance_Sheet')
             return data
         except Exception as e:
             self.logger_alphavantage.error(f"API request failed {e}")
     
-    def get_fundamental_cash_flow(self, base_asset = '', quote_asset = ''):
+    def get_fundamental_cash_flow(self, base_asset = '', quote_asset = '', number_years = 5):
         """
         Retrieves fundamental cash flow data from the API.
 
@@ -193,7 +193,7 @@ class FundementalStockData(AlphaVantageBase):
                 "symbol": symbol,
                 "apikey": self.api_key
             }
-            data = self._fetch_data(params)
+            data = self.transform_finance_company_report(data = self._fetch_data(params), number_years = number_years, name = 'Cash_Flow')
             return data
         except Exception as e:
             self.logger_alphavantage.error(f"API request failed {e}")

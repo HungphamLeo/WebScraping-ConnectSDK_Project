@@ -17,7 +17,7 @@ class BalanceSheetCrawler(BaseCrawler):
         if year is None:
             year = self.year
     
-        column_names = self.generate_column_quarter_names(number_quarter=number_quarter, year=year, quarter=quarter, name_of_tables="Balance Sheet")
+        column_names = self.generate_column_quarter_names(number_quarter=number_quarter, year=year, quarter=quarter, name_of_tables=f"{company_name}_Balance_Sheet_Quarter")
         round_merge = number_quarter // CONST_TABLE
         final_table = None
     
@@ -49,6 +49,6 @@ class BalanceSheetCrawler(BaseCrawler):
                 final_table = __table
             else:
                 final_table = pd.concat([__table,final_table.iloc[:,1:]], axis=1)
-        column_names = self.generate_column_year_names(number_year=number_year, year=year, name_of_tables="Balance Sheet") 
+        column_names = self.generate_column_year_names(number_year=number_year, year=year, name_of_tables=f"{company_name}_Balance_Sheet_Annual") 
         final_table.columns = column_names 
         return final_table
