@@ -99,7 +99,7 @@ class BaseCrawler:
         
         return column_names
     
-    def generate_column_names(self, number_year, year, name_of_tables = "Report"):
+    def generate_column_year_names(self, number_year, year, name_of_tables = "Report"):
         column_names = []
         for i in range(number_year):
             year = int(year) - i
