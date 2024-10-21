@@ -21,33 +21,30 @@ income_statement_object = IncomeStatementCrawler(quarter="2")
 cash_flow_object = CashFlowCrawler(quarter="2")
 path_quarter = "C:/Users/Admin/Downloads/Project/Github/master/data_craw/quarter/"
 path_annual = "C:/Users/Admin/Downloads/Project/Github/master/data_craw/annual/"
-for company_name in company_name_list:
-    company_dir = f"{path_quarter}/{company_name}"
-    if not os.path.exists(company_dir):
-        os.makedirs(company_dir)
 
+
+for folder in ["balance_sheet", "income_statement", "cash_flow"]:
+    os.makedirs(os.path.join(path_quarter, folder), exist_ok=True)
+    os.makedirs(os.path.join(path_annual, folder), exist_ok=True)
+
+for company_name in company_name_list:
     balance_sheet = balance_sheet_object.get_multi_table_quarter(company_name, year, number_quarter, quarter)
     income_statement = income_statement_object.get_multi_table_quarter(company_name, year, number_quarter, quarter)
     cash_flow = cash_flow_object.get_multi_table_quarter(company_name, year, number_quarter, quarter)
 
-    balance_sheet_object.save_data(balance_sheet, "xlsx", f"{company_dir}/balance_sheet.xlsx")
-    income_statement_object.save_data(income_statement, "xlsx", f"{company_dir}/income_statement.xlsx")
-    cash_flow_object.save_data(cash_flow, "xlsx", f"{company_dir}/cash_flow.xlsx")
-
+    balance_sheet_object.save_data(balance_sheet, "xlsx", os.path.join(path_quarter, "balance_sheet", f'{company_name}.xlsx'))
+    income_statement_object.save_data(income_statement, "xlsx", os.path.join(path_quarter, "income_statement", f'{company_name}.xlsx'))
+    cash_flow_object.save_data(cash_flow, "xlsx", os.path.join(path_quarter, "cash_flow", f'{company_name}.xlsx'))
     time.sleep(3)
 
 for company_name in company_name_list:
-    company_dir = f"{path_annual}/{company_name}"
-    if not os.path.exists(company_dir):
-        os.makedirs(company_dir)
-
     balance_sheet = balance_sheet_object.get_multi_table_year(company_name, year, number_year)
     income_statement = income_statement_object.get_multi_table_year(company_name, year, number_year)
     cash_flow = cash_flow_object.get_multi_table_year(company_name, year, number_year)
 
-    balance_sheet_object.save_data(balance_sheet, "xlsx", f"{company_dir}/balance_sheet.xlsx")
-    income_statement_object.save_data(income_statement, "xlsx", f"{company_dir}/income_statement.xlsx")
-    cash_flow_object.save_data(cash_flow, "xlsx", f"{company_dir}/cash_flow.xlsx")
+    balance_sheet_object.save_data(balance_sheet, "xlsx", os.path.join(path_annual, "balance_sheet", f'{company_name}.xlsx'))
+    income_statement_object.save_data(income_statement, "xlsx", os.path.join(path_annual, "income_statement", f'{company_name}.xlsx'))
+    cash_flow_object.save_data(cash_flow, "xlsx", os.path.join(path_annual, "cash_flow", f'{company_name}.xlsx'))
     time.sleep(3)
 
 
