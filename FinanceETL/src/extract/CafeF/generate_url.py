@@ -2,7 +2,7 @@
 URL_BASE = "https://s.cafef.vn/bao-cao-tai-chinh/"
 BALANCE_SHEET = "bsheet"
 INCOME_STATEMENT = "incsta"
-CASH_FLOW = "cashflow"
+CASH_FLOW = "cashflowdirect"
 CONST_TABLE = 4
 
 
