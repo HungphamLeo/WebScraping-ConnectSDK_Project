@@ -11,6 +11,7 @@ def generate_balance_sheet_url(company_name, year, report_type="4 QUARTER", quar
         # print(f"{URL_BASE}{company_name}/{BALANCE_SHEET}/{year}/{quarter}/0/0/0/bao-cao-tai-chinh-.chn")
         return f"{URL_BASE}{company_name}/{BALANCE_SHEET}/{year}/{quarter}/0/0/0/bao-cao-tai-chinh-.chn"
     elif report_type == "1 YEAR":
+        # print(f"{URL_BASE}{company_name}/{BALANCE_SHEET}/{year}/0/0/0/0/bao-cao-tai-chinh-.chn")
         return f"{URL_BASE}{company_name}/{BALANCE_SHEET}/{year}/0/0/0/0/bao-cao-tai-chinh-.chn"
     else:
         raise ValueError("Invalid report_type. Choose either '4 QUARTER' or '1 YEAR'.")
