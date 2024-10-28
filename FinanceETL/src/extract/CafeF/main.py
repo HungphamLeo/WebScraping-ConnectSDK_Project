@@ -4,7 +4,7 @@ from get_cash_flow import CashFlowCrawler
 import json
 import os 
 import time
-from config import RENEWABLE_ENERGY_LIST 
+from ..config import RENEWABLE_ENERGY_LIST 
 
 
 company_name_list = RENEWABLE_ENERGY_LIST
@@ -47,4 +47,4 @@ for company_name in company_name_list:
 
 
         
-       
+
